@@ -1,8 +1,12 @@
+import {regUser} from "../services/auth-service";
+
 export function login() {
 
 }
 
-export function register() {
+export async function register(req, res) {
+    const newUser = req.body;
+    res.send(await regUser(newUser));
 
 }
 
