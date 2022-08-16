@@ -5,8 +5,14 @@ export function login() {
 }
 
 export async function register(req, res) {
-    const newUser = req.body;
-    res.send(await regUser(newUser));
+    try {
+        const newUser = await req.body;
+        // console.log(newUser)
+        res.send(await regUser(newUser) + " is created").end();
+
+    } catch (err: any) {
+        res.status(400).send({message: err.message});
+    }
 
 }
 

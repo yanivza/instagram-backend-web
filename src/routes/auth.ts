@@ -4,9 +4,6 @@ import verifyUser from "../middleware/verify-user";
 
 const router = express.Router();
 
-function sendResponse(req, res) {
-    res.json({avi: '1'})
-}
 
 router.post('/api/login', login);
 router.post('/api/register', register);
