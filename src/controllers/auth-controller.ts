@@ -1,6 +1,18 @@
-import {regUser} from "../services/auth-service";
+import {handleLogin, regUser} from "../services/auth-service";
+import {Error} from "mongoose";
 
-export function login() {
+export async function login(req, res) {
+    try {
+        const user = req.body;
+        if (user.username !== undefined && user.password !== undefined) {
+            console.log(Boolean(user))
+            res.send(await handleLogin(user.username, user.password) + 'connected');
+        }
+        throw {err:'login failed'};
+    } catch (err: any) {
+        res.send(err.message)
+        // res.status(401).send({ message: 'invalid username or password' });
+    }
 
 }
 
