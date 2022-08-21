@@ -1,32 +1,38 @@
 import {User} from "../models/user";
 import bcrypt from 'bcryptjs';
 import {Error} from "mongoose";
+import 'dotenv/config';
+
+const jwt = require('jsonwebtoken');
+
+const secret=process.env.TOKEN_SECRET;
+
 
 function createHashPassword(password: string) {
     return bcrypt.hashSync(password, 10);
 }
 
-// function getUserByUsernameAndPassword(username, password) {
-//    const users =
-//     return getUsers().find(user => {
-//         return username === user.username && password === user.password;
-//     })
-// }
+ export async function getUserById(userId) {
+    const user = await User.findOne({ _id: userId })
+    .catch((err)=>console.log({mas:err.message}));
+    return user;
+}
 
 export async function handleLogin(username: string, password: string) {
     try {
         const user: any = await User.findOne({username: username});
         const isValid = await bcrypt.compare(password, user.hashPassword)
         if (isValid) {
-            return user.username;
+            const token = jwt.sign({user}, secret)
+            console.log(token)
+            return {user, token};
         }
+        //     return user.username;
+        // }
          throw "Username and password not valid" ;
     } catch (err:any) {
         throw new Error(err)
-
     }
-
-
 }
 
 
