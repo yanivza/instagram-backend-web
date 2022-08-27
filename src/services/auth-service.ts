@@ -8,7 +8,6 @@ const jwt = require('jsonwebtoken');
 
 const secret=process.env.TOKEN_SECRET;
 
-
 function createHashPassword(password: string) {
     return bcrypt.hashSync(password, 10);
 }
@@ -18,6 +17,7 @@ function createHashPassword(password: string) {
     .catch((err)=>console.log({mas:err.message}));
     return user;
 }
+
 export function createToken(user){
     const token = jwt.sign({user}, secret,{expiresIn: '90d'})
     return token;
@@ -35,7 +35,6 @@ export async function handleLogin(username: string, password: string) {
         throw new Error(err)
     }
 }
-
 
 export async function regUser(newUser) {
     try {
@@ -55,6 +54,13 @@ export async function regUser(newUser) {
     } catch (err: any) {
         return {message: err.message}
     }
+}
+
+export async function changeDitails(changes: any, user: any){
+    user.email = changes.email;
+    user.mobile = changes.mobile;
+    await user.save()
+    return user
 }
 
 

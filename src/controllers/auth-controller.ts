@@ -1,4 +1,4 @@
-import { createToken, handleLogin, regUser } from "../services/auth-service";
+import { changeDitails, createToken, handleLogin, regUser } from "../services/auth-service";
 import { Error } from "mongoose";
 
 export async function login(req, res) {
@@ -16,7 +16,6 @@ export async function login(req, res) {
         res.send(err.message)
         // res.status(401).send({ message: 'invalid username or password' });
     }
-
 }
 
 export async function register(req, res) {
@@ -28,10 +27,9 @@ export async function register(req, res) {
     } catch (err: any) {
         res.status(400).send({ message: err.message });
     }
-
 }
 
-export function userInfo(req, res) {
-    const user = req.body
-    res.send(user);
+export async function userInfo(req, res) {
+    const baseInfo = req.body
+    res.send( await changeDitails(baseInfo,req.user));
 }
