@@ -6,7 +6,8 @@ const secret = process.env.TOKEN_SECRET
 
 
 async function verifyUser(req, res, next) {
-    const token = req.headers['token'];
+    const token = req.cookies.token;
+    console.log(token)
     try {
         const verification = verify(token, secret)
         console.log(verification)
@@ -21,6 +22,7 @@ async function verifyUser(req, res, next) {
 
         next();
     } catch(err) {
+        res.clearCookie('token')
         console.log(err)
         res.status(401).send('this is the real unauth!')
     }

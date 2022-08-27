@@ -7,7 +7,7 @@ function sendResponse(req, res) {
 }
 
 
-router.get('/api/users/:username', sendResponse);
+router.get('/api/users/:username', sendResponse); //my propile --> get 
 router.get('/api/users/:username/followers', sendResponse);
 router.get('/api/users/:username/following', sendResponse);
 

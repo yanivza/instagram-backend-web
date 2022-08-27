@@ -13,7 +13,8 @@ function sendResponse(req, res) {
 // router.get('/api/feed', verifyUser ,sendResponse);
 
 router.get('/api/feed', getFeed);
-router.get('/api/posts/:postId',getPostById, getPost);
+// router.get('/api/posts/:postId', verifyUser ,getPostById, getPost);
+router.get('/api/posts', verifyUser ,getPostById);
 router.get('/api/posts/:postId/comments',getPostById, getPostComments);
 router.get('/api/posts/:postId/likes',getPostById, getPostLikes);
 

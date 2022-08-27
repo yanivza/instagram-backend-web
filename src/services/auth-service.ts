@@ -1,6 +1,7 @@
 import {User} from "../models/user";
 import bcrypt from 'bcryptjs';
 import {Error} from "mongoose";
+import cookieParser from 'cookie-Parser';
 import 'dotenv/config';
 
 const jwt = require('jsonwebtoken');
@@ -17,18 +18,18 @@ function createHashPassword(password: string) {
     .catch((err)=>console.log({mas:err.message}));
     return user;
 }
+export function createToken(user){
+    const token = jwt.sign({user}, secret,{expiresIn: '90d'})
+    return token;
+}
 
 export async function handleLogin(username: string, password: string) {
     try {
         const user: any = await User.findOne({username: username});
         const isValid = await bcrypt.compare(password, user.hashPassword)
         if (isValid) {
-            const token = jwt.sign({user}, secret)
-            console.log(token)
-            return {user, token};
+             return createToken(user)
         }
-        //     return user.username;
-        // }
          throw "Username and password not valid" ;
     } catch (err:any) {
         throw new Error(err)
