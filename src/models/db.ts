@@ -5,7 +5,7 @@ import {User} from "./user";
 
 async function connectToDb() {
     try {
-        await mongoose.connect('mongodb://localhost/instagramDB', {
+        await mongoose.connect('mongodb+srv://userDB:userdb1234@cluster0.02lkr1k.mongodb.net/instagramDB?retryWrites=true&w=majority', {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
